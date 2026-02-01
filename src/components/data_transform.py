@@ -44,7 +44,7 @@ class DataTransformer:
             cat_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy='most_frequent')),
                 ('one_hot', OneHotEncoder(drop='first')),
-                ('scaler', StandardScaler())
+                ('scaler', StandardScaler(with_mean=False))
             ])
 
             preprocessor = ColumnTransformer(
@@ -60,7 +60,7 @@ class DataTransformer:
         except Exception as e:
             raise CustomException(e, sys)
 
-    def prepare_dataset(self, train_set_path, test_set_path):
+    def prepare_dataset(self, train_set_path: str, test_set_path: str) -> tuple[np.ndarray, np.ndarray, str]:
         try:
             train_set = pd.read_csv(train_set_path)
             test_set = pd.read_csv(test_set_path)

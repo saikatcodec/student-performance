@@ -10,6 +10,7 @@ from dataclasses import dataclass
 
 from src.logger import logging
 from src.exceptions import CustomException
+from src.components.data_transform import DataTransformer
 
 logger = logging.getLogger(__name__)
 
@@ -49,4 +50,8 @@ class DataIngestion:
 
 if __name__ == '__main__':
     data_ingest = DataIngestion()
-    data_ingest.initiate_data_ingestion()
+    train_set_path, test_set_path, _ = data_ingest.initiate_data_ingestion()
+
+    transformer = DataTransformer()
+    train_arr, test_arr, _ = transformer.prepare_dataset(train_set_path, test_set_path)
+    print(train_arr.shape, test_arr.shape)
