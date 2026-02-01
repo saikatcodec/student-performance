@@ -3,7 +3,7 @@ import sys
 def get_error(error, error_details: sys) -> str:
     _, _, traceback = error_details.exc_info()
     filename = traceback.tb_frame.f_code.co_filename
-    error_message = f'The error occured in file name {filename} with line number {traceback.tb_lineno}. Error: {str(error)}'
+    error_message = f'The error occurred in file name {filename} with line number {traceback.tb_lineno}. Error: {str(error)}'
 
     return error_message
 
