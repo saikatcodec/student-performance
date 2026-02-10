@@ -4,6 +4,7 @@ Used for model training
 
 import os
 import sys
+import warnings
 from sklearn.linear_model import (
     LinearRegression,
     Ridge,
@@ -16,6 +17,7 @@ from sklearn.ensemble import (
     AdaBoostRegressor,
     GradientBoostingRegressor
 )
+from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 from catboost import CatBoostRegressor
 from sklearn.metrics import r2_score
@@ -27,7 +29,7 @@ from src.exceptions import CustomException
 from src.utilities import save_object
 
 logger = logging.getLogger(__name__)
-
+warnings.filterwarnings('ignore')
 
 @dataclass
 class ModelTrainerConfig:
@@ -48,7 +50,7 @@ class ModelTrainer:
                 grid_search = GridSearchCV(
                     estimator=model,
                     param_grid=params[name],
-                    scoring='accuracy',
+                    scoring='r2',
                     n_jobs=-1,
                     refit=True,
                     cv=5,
@@ -86,6 +88,7 @@ class ModelTrainer:
                 'Lasso': Lasso(), 
                 'SVR': SVR(kernel='rbf'),
                 'KNN Regressor': KNeighborsRegressor(),
+                'Decision Tree': DecisionTreeRegressor(),
                 'Random Forest': RandomForestRegressor(),
                 'Adaboost': AdaBoostRegressor(),
                 'Gradient Boosting': GradientBoostingRegressor(),
@@ -101,7 +104,7 @@ class ModelTrainer:
                 "Random Forest":{
                     'n_estimators': [8,16,32,64,128,256]
                 },
-                "AdaBoost":{
+                "Adaboost":{
                     'learning_rate':[.1,.01,0.5,.001],
                     'n_estimators': [8,16,32,64,128,256]
                 },
@@ -113,11 +116,6 @@ class ModelTrainer:
                 "Xgboost":{
                     'learning_rate':[.1,.01,.05,.001],
                     'n_estimators': [8,16,32,64,128,256]
-                },
-                "Catboost":{
-                    'depth': [6,8,10],
-                    'learning_rate': [0.01, 0.05, 0.1],
-                    'iterations': [30, 50, 100]
                 }
             }
 
