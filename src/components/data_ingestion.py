@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from src.logger import logging
 from src.exceptions import CustomException
 from src.components.data_transform import DataTransformer
+from src.components.model_trainer import ModelTrainer
 
 logger = logging.getLogger(__name__)
 
@@ -54,4 +55,7 @@ if __name__ == '__main__':
 
     transformer = DataTransformer()
     train_arr, test_arr, _ = transformer.prepare_dataset(train_set_path, test_set_path)
-    print(train_arr.shape, test_arr.shape)
+
+    trainer = ModelTrainer()
+    score = trainer.evaluate_best_model(train_arr, test_arr)
+    print(score)
