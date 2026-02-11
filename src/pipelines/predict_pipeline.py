@@ -18,37 +18,37 @@ class PredictPipeline:
         processed_data = preprocessor.transform(dataframe)
 
         results = model.predict(processed_data)
-        return results[0]
+        return results
 
 
 class CustomData:
     def __init__(
         self,
-        gender: str,
-        race_ethnicity: str,
-        parental_level_of_education: str,
-        lunch: str,
-        test_preparation_course: str,
-        reading_score: int,
-        writing_score: int
-    ) -> None:
-        self.gender = gender
-        self.race_ethnicity = race_ethnicity
-        self.parental_level_of_education = parental_level_of_education
-        self.lunch = lunch
-        self.test_preparation_course = test_preparation_course
-        self.reading_score = reading_score
-        self.writing_score = writing_score
+        gender,
+        race_ethnicity,
+        parental_level_of_education,
+        lunch,
+        test_preparation_course,
+        reading_score,
+        writing_score
+    ):
+        self.gender: str = gender
+        self.race_ethnicity: str = race_ethnicity
+        self.parental_level_of_education: str = parental_level_of_education
+        self.lunch: str = lunch
+        self.test_preparation_course: str = test_preparation_course
+        self.reading_score: int = reading_score
+        self.writing_score: int = writing_score
 
     def create_dataframe(self):
         data_dict = {
-            'gender': self.gender,
-            'race_ethnicity': self.race_ethnicity,
-            'parental_level_of_education': self.parental_level_of_education,
-            'lunch': self.lunch,
-            'test_preparation_course': self.test_preparation_course,
-            'reading_score': self.reading_score,
-            'writing_score': self.writing_score
+            'gender': [self.gender],
+            'race_ethnicity': [self.race_ethnicity],
+            'parental_level_of_education': [self.parental_level_of_education],
+            'lunch': [self.lunch],
+            'test_preparation_course': [self.test_preparation_course],
+            'reading_score': [self.reading_score],
+            'writing_score': [self.writing_score]
         }
 
         dataframe = pd.DataFrame(data_dict)

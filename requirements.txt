@@ -5,3 +5,5 @@ numpy
 matplotlib
 xgboost
 catboost
+fastapi[standard]
+jinja2
