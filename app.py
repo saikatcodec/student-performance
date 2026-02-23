@@ -1,22 +1,24 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.requests import Request
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from src.pipelines.predict_pipeline import CustomData, PredictPipeline
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory='templates')
 
-@app.get('/', response_class=HTMLResponse)
+@app.get('/hello', response_class=HTMLResponse)
 async def hello_world(request: Request):
     return templates.TemplateResponse(
         request=request,
         name='index.html'
     )
 
-@app.api_route('/predict', methods=['POST', 'GET'], response_class=HTMLResponse)
+@app.api_route('/', methods=['POST', 'GET'], response_class=HTMLResponse)
 async def predict_data(request: Request):
     if request.method == 'POST':
         async with request.form() as form:
@@ -47,7 +49,7 @@ async def predict_data(request: Request):
             request=request,
             name='home.html',
             context={
-                'results': results[0]
+                'results': round(results[0], 2)
             }
         )
     elif request.method == 'GET':
